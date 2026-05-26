@@ -20,8 +20,7 @@ var App = (function() {
         Animations.createHomeParticles();
 
         Tutorial.show(function() {
-            var currentLevel = Storage.getCurrentLevel();
-            startLevel(currentLevel);
+            navigateTo('home');
         });
 
         document.addEventListener('visibilitychange', function() {
