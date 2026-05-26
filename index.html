@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>合成消除</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- ========== 首页 ========== -->
+        <div id="page-home" class="page active">
+            <div class="home-bg">
+                <div class="home-particles" id="homeParticles"></div>
+            </div>
+            <button class="home-settings-btn" id="btnSettings">⚙️</button>
+            <div class="home-content">
+                <div class="home-logo">
+                    <h1 class="home-title">合成消除</h1>
+                    <p class="home-subtitle">滑动合成 · 策略消除</p>
+                </div>
+                <div class="home-buttons">
+                    <button class="btn btn-primary btn-lg" id="btnStartGame">
+                        <span class="btn-icon">▶</span> 开始闯关
+                    </button>
+                    <button class="btn btn-endless btn-lg" id="btnEndless">
+                        <span class="btn-icon">♾️</span> 无尽模式
+                    </button>
+                    <button class="btn btn-secondary btn-lg" id="btnLevels">
+                        <span class="btn-icon">📋</span> 关卡列表
+                    </button>
+                    <button class="btn btn-outline btn-lg" id="btnRanking">
+                        <span class="btn-icon">🏆</span> 排行榜
+                    </button>
+                </div>
+                <div class="home-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="homeHighScore">0</div>
+                        <div class="stat-label">最高分</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="homeEndlessHigh">0</div>
+                        <div class="stat-label">无尽最高</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="homeLevelPassed">0</div>
+                        <div class="stat-label">已通关</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 游戏页面 ========== -->
+        <div id="page-game" class="page">
+            <div class="game-header">
+                <button class="btn-icon-only" id="btnGameBack">←</button>
+                <div class="game-info">
+                    <div class="game-level-tag" id="gameLevelTag">第1关</div>
+                    <div class="game-score-row">
+                        <span class="score-label">得分</span>
+                        <span class="score-value" id="gameScore">0</span>
+                        <span class="score-sep">/</span>
+                        <span class="score-target" id="gameTarget">500</span>
+                    </div>
+                </div>
+                <div class="game-moves" id="gameMovesBox">
+                    <span class="moves-label">剩余</span>
+                    <span class="moves-value" id="gameMoves">50</span>
+                </div>
+            </div>
+
+            <div class="game-board-wrapper">
+                <div class="game-board" id="gameBoard"></div>
+                <div class="game-progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <div class="game-eliminate-hint" id="eliminateHint"></div>
+
+            <div class="game-banner-ad" id="gameBannerAd">
+                <div class="banner-ad-content">
+                    <span class="banner-ad-tag">广告</span>
+                    <span class="banner-ad-text">精品游戏推荐 · 畅玩无限</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 关卡列表 ========== -->
+        <div id="page-levels" class="page">
+            <div class="page-header">
+                <button class="btn-icon-only" id="btnLevelsBack">←</button>
+                <h2 class="page-title">关卡列表</h2>
+                <div class="spacer"></div>
+            </div>
+            <div class="levels-grid" id="levelsGrid"></div>
+        </div>
+
+        <!-- ========== 排行榜 ========== -->
+        <div id="page-ranking" class="page">
+            <div class="page-header">
+                <button class="btn-icon-only" id="btnRankingBack">←</button>
+                <h2 class="page-title">🏆 无尽模式排行</h2>
+                <div class="spacer"></div>
+            </div>
+            <div class="ranking-list" id="rankingList"></div>
+        </div>
+
+        <!-- ========== 设置页面 ========== -->
+        <div id="page-settings" class="page">
+            <div class="page-header">
+                <button class="btn-icon-only" id="btnSettingsBack">←</button>
+                <h2 class="page-title">游戏设置</h2>
+                <div class="spacer"></div>
+            </div>
+            <div class="settings-list">
+                <div class="setting-item">
+                    <span class="setting-label">🔊 音效</span>
+                    <label class="switch">
+                        <input type="checkbox" id="settingSound" checked>
+                        <span class="switch-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label">🎵 背景音乐</span>
+                    <label class="switch">
+                        <input type="checkbox" id="settingMusic" checked>
+                        <span class="switch-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <span class="setting-label">✨ 动画效果</span>
+                    <label class="switch">
+                        <input type="checkbox" id="settingAnimation" checked>
+                        <span class="switch-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-divider"></div>
+                <div class="setting-item clickable" id="settingResetGame">
+                    <span class="setting-label">🔄 重启当前关卡</span>
+                    <span class="setting-arrow">›</span>
+                </div>
+                <div class="setting-item clickable" id="settingClearData">
+                    <span class="setting-label">🗑️ 清空所有数据</span>
+                    <span class="setting-arrow">›</span>
+                </div>
+            </div>
+            <div class="settings-stats">
+                <h3>游戏统计</h3>
+                <div class="stats-grid">
+                    <div class="stats-row"><span>总游戏次数</span><span id="statTotalGames">0</span></div>
+                    <div class="stats-row"><span>最高分数</span><span id="statHighScore">0</span></div>
+                    <div class="stats-row"><span>通关关卡</span><span id="statLevelsPassed">0</span></div>
+                    <div class="stats-row"><span>总游戏时长</span><span id="statTotalTime">0分钟</span></div>
+                    <div class="stats-row"><span>最大合成数</span><span id="statMaxMerge">0</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 弹窗层 ========== -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal" id="modalContent"></div>
+        </div>
+
+        <!-- ========== 新手引导层 ========== -->
+        <div class="tutorial-overlay" id="tutorialOverlay">
+            <div class="tutorial-content" id="tutorialContent"></div>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/tutorial.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
